@@ -10,9 +10,8 @@ def register(request):
     form_user_dashboard = RegisterUserDashboard(request.POST or None)
     if request.method == 'POST':
         if form_user.is_valid() and form_user_dashboard.is_valid():
-            form_user.save()
+            created_user = form_user.save()
             user_from_dashboard = form_user_dashboard.save(commit=False)
-            created_user = User.objects.last()
             user_from_dashboard.user = created_user
             if request.POST.get("if_executive") == "executive":
                 selected_role = Role.objects.get(id=1)
