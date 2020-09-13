@@ -1,4 +1,5 @@
 .idea/
 .git/
 *.pyc
-dashboard/migrations/
+project_panel/registration/migrations/*
+project_panel/db.sqlite3
