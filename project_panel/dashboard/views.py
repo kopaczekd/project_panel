@@ -1,19 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.apps import apps
 from registration.models import UserDashboard, Role
-# UserDashboard = apps.get_model('registration', 'UserDashboard')
-# Role = apps.get_model('registration', 'Role')
 
 
 def home(request):
     if request.user.is_authenticated:
         logged_user = UserDashboard.objects.get(user=request.user.id)
-        print(logged_user)
         if logged_user.is_executive():
-            print("Wykonawca")
-            render(request, 'dashboard/executive_panel.html')
+            return executive_panel(request)
         else:
-            print("Wykonawca")
-            render(request, 'dashboard/customer_panel.html')
-
+            return customer_panel(request)
     return render(request, 'dashboard/home.html')
+
+
+def customer_panel(request):
+    return render(request, 'dashboard/customer_panel.html')
+
+
+def executive_panel(request):
+    return render(request, 'dashboard/executive_panel.html')
