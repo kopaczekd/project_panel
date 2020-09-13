@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Role, UserDashboard
 
 
 class RegisterForm(UserCreationForm):
@@ -12,3 +13,9 @@ class RegisterForm(UserCreationForm):
             'password1': "Hasło",
             'password2': "Powtórz hasło"
         }
+
+
+class RegisterUserDashboard():
+    class Meta:
+        model = UserDashboard
+        exclude = ['user', 'role']
