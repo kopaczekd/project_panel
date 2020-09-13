@@ -12,7 +12,7 @@
 <form method="post">
     {% csrf_token %}
     <p>Czy rejestrujesz się jako Wykonawca projektów?</p>
-    <input type="checkbox" id="if_executive" value="executive"/>
+    <input type="checkbox" id="if_executive" name="if_executive" value="executive"/>
     <label for="if_executive">Tak</label>
     {{ form_user|crispy }}
     {{ form_user_dashboard|crispy }}
