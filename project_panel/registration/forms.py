@@ -19,9 +19,4 @@ class RegisterForm(UserCreationForm):
 class RegisterUserDashboard(ModelForm):
     class Meta:
         model = UserDashboard
-        exclude = ['user', 'role']
-
-
-
-
-
+        exclude = ['user', 'role', 'active']
