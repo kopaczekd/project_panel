@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
 from .forms import RegisterForm, RegisterUserDashboard
+from django.shortcuts import render, reverse, redirect
 from django.http import HttpResponse
 from .models import Role
 
@@ -27,5 +27,16 @@ def register(request):
 
 
 def login(request):
-    return HttpResponse("logowanie")
+    if request.method == 'POST':
+        # return redirect('registration: logged.html')
+        return logged
+    return render(request, 'registration/login.html')
+
+
+def logged(request):
+    return render(request, 'registration/logged.html')
+
+
+
+
 
