@@ -12,7 +12,7 @@ class Role(models.Model):
 class UserDashboard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     role = models.ForeignKey(Role, null=True, on_delete=models.DO_NOTHING)
-    company_name = models.CharField(max_length=248, null=True)
-    nip = models.IntegerField(null=True)
-    postal_address = models.CharField(max_length=248)
-    telephone = models.PositiveIntegerField()
+    company_name = models.CharField(max_length=248, null=True, verbose_name="Nazwa firmy")
+    nip = models.IntegerField(null=True, verbose_name="Nip firmy")
+    postal_address = models.CharField(max_length=248, verbose_name="Adres pocztowy")
+    telephone = models.PositiveIntegerField(verbose_name="Nr telefonu")
