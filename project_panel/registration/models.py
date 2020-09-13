@@ -19,3 +19,12 @@ class UserDashboard(models.Model):
 
     def __str__(self):
         return f'{self.user}, {self.telephone}'
+
+    def is_executive(self):
+        role = Role.objects.filter(name='Wykonawca').first()
+        if self.role == role:
+            return True
+        else:
+            return False
+
+
