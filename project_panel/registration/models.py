@@ -16,6 +16,7 @@ class UserDashboard(models.Model):
     nip = models.CharField(null=True, verbose_name="Nip firmy", max_length=248)
     postal_address = models.CharField(max_length=248, verbose_name="Adres pocztowy")
     telephone = models.PositiveIntegerField(verbose_name="Nr telefonu")
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user}, {self.telephone}'
