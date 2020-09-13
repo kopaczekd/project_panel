@@ -1,8 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import RegisterForm, RegisterUserDashboard
 from django.http import HttpResponse
 from .models import Role
-from django.contrib.auth.models import User
 
 
 def register(request):
@@ -10,7 +9,7 @@ def register(request):
     form_user_dashboard = RegisterUserDashboard(request.POST or None)
     if request.method == 'POST':
         if form_user.is_valid() and form_user_dashboard.is_valid():
-            created_user = form_user.save()
+            created_user = form_user.save(commit=False)
             user_from_dashboard = form_user_dashboard.save(commit=False)
             user_from_dashboard.user = created_user
             if request.POST.get("if_executive") == "executive":
@@ -20,8 +19,9 @@ def register(request):
             else:
                 selected_role = Role.objects.get(id=2)
             user_from_dashboard.role = selected_role
+            created_user.save()
             user_from_dashboard.save()
-            return HttpResponse("Rejestracja pomyślna!")
+            return redirect('dashboard:home')
     return render(request, 'registration/register.html', {'form_user': form_user,
                                                           'form_user_dashboard': form_user_dashboard})
 
