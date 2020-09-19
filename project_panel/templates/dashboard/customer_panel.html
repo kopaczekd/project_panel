@@ -7,4 +7,16 @@
 
 {% block content %}
 <h1>Panel Klienta</h1>
+
+<h3>Lista moich projektów</h3>
+<ol>
+    {% for project in all_projects %}
+        <li><a href="#">{{ project }}</a></li>
+    {% endfor %}
+</ol>
+
+<form action="#">
+    <input type="button" value="Dodaj projekt">
+</form>
+
 {% endblock %}

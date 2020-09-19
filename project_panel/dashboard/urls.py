@@ -1,8 +1,9 @@
 from django.urls import path, include
-from . import views
+from .views import CustomerPanel, home
 
 app_name = 'dashboard'
 
 urlpatterns = [
-    path('', views.home, name="home")
+    path('', home, name="home"),
+    path('customer-panel/',  CustomerPanel.as_view(), name="customer_panel")
 ]
