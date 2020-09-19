@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Ekran powitania</title>
-</head>
+{% extends 'base.html' %}
+
+{% block title %} Witamy! {% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
 <body>
-    <h1>Witaj</h1>
+    <h3>Jesteś obecnie zalogowany!</h3>
 </body>
-</html>
+{% endblock %}

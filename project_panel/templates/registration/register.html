@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<form method="post">
+<form method="POST">
     {% csrf_token %}
     <p>Czy rejestrujesz się jako Wykonawca projektów?</p>
     <input type="checkbox" id="if_executive" name="if_executive" value="executive"/>

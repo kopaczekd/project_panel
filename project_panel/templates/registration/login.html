@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Logowanie</title>
-    <script> addEventListener('onclick', function() {
-    Console.log(test)
-    }
-</script>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Logowanie {% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
 <body>
-    <h1>Formularz logowania</h1>
+    <h1>Logowania</h1>
     <form method="post">
-         {% csrf_token %}
-        <input type="text" placeholder="email">
-        <input type="password" placeholder="hasło">
+        {% csrf_token %}
+        {{ form|crispy }}
+<!--        <input type="text" placeholder="email">-->
+<!--        <input type="password" placeholder="hasło">-->
         <input type="submit" value="Zaloguj" id="login">
     </form>
-</body>
-</html>
+{% endblock %}

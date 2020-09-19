@@ -10,8 +10,8 @@
 <body>
 <h1>Header</h1>
 {% if user.is_authenticated %}
-    <p>Cześć {{ user.username }} !</p>
-    <p><a href="auth/logout/">Wyloguj</a></p>
+    <p>Cześć {{ user.first_name }} !</p>
+    <p><a href="/auth/logout/">Wyloguj</a></p>
 {% else %}
     <p>Cześć nieznajomy!</p>
 {% endif %}

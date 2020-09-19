@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.apps import apps
-from registration.models import UserDashboard, Role
+from registration.models import UserDashboard
 
 
 def home(request):
@@ -13,9 +13,9 @@ def home(request):
     return render(request, 'dashboard/home.html')
 
 
-def customer_panel(request):
-    return render(request, 'dashboard/customer_panel.html')
-
-
 def executive_panel(request):
     return render(request, 'dashboard/executive_panel.html')
+
+
+def customer_panel(request):
+    return render(request, 'dashboard/customer_panel.html')
