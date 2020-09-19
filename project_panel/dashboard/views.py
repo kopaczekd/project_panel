@@ -25,6 +25,7 @@ class CustomerPanel(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['all_projects'] = Project.objects.filter(customer=self.request.user)
+        context['user_dashboard'] = UserDashboard.objects.get(user=self.request.user)
         return context
 
     # def get_query_set(self, request):
