@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.apps import apps
 from registration.models import UserDashboard
+from django.views.generic import TemplateView
+from .models import Project
 
 
 def home(request):
@@ -9,7 +11,7 @@ def home(request):
         if logged_user.is_executive():
             return executive_panel(request)
         else:
-            return customer_panel(request)
+            return redirect('dashboard:customer_panel')
     return render(request, 'dashboard/home.html')
 
 
@@ -17,5 +19,15 @@ def executive_panel(request):
     return render(request, 'dashboard/executive_panel.html')
 
 
-def customer_panel(request):
-    return render(request, 'dashboard/customer_panel.html')
+class CustomerPanel(TemplateView):
+    template_name = 'dashboard/customer_panel.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_projects'] = Project.objects.filter(customer=self.request.user)
+        context['user_dashboard'] = UserDashboard.objects.get(user=self.request.user)
+        return context
+
+    # def get_query_set(self, request):
+    #     all_projects = Project.objects.filter(customer=request.user)
+    #     return render(request, self.template_name, {'all_projects': all_projects})
