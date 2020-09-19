@@ -36,6 +36,8 @@ def register(request):
                                                           'form_user_dashboard': form_user_dashboard})
 
 
+
+
 def login(request):
     if request.user.is_authenticated:
         return logged(request)

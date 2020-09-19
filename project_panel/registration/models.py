@@ -13,9 +13,9 @@ class UserDashboard(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     role = models.ForeignKey(Role, null=True, on_delete=models.DO_NOTHING)
-    company_name = models.CharField(max_length=248, null=True, blank=True, verbose_name="Nazwa firmy")
+    company_name = models.CharField(max_length=255, null=True, blank=True, verbose_name="Nazwa firmy")
     nip = models.CharField(null=True, blank=True, verbose_name="Nip firmy", max_length=248)
-    postal_address = models.CharField(max_length=248, verbose_name="Adres pocztowy")
+    postal_address = models.CharField(max_length=255, verbose_name="Adres pocztowy")
     telephone = models.PositiveIntegerField(verbose_name="Nr telefonu")
     active = models.BooleanField(default=False)
 
