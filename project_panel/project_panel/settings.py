@@ -126,3 +126,5 @@ STATIC_URL = '/static/'
 
 LOGOUT_REDIRECT_URL = 'dashboard:home'
 LOGIN_REDIRECT_URL = 'dashboard:home'
+
+FIXTURE_DIRS = ['fixtures']

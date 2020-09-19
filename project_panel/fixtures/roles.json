@@ -1,0 +1,15 @@
+[
+  {
+    "model": "registration.Role",
+    "pk": 1,
+    "fields": {
+      "name": "Wykonawca"
+    }
+  },  {
+    "model": "registration.Role",
+    "pk": 2,
+    "fields": {
+      "name": "Klient"
+    }
+  }
+]
