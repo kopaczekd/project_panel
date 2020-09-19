@@ -5,7 +5,7 @@
     "fields": {
       "name": "Wykonawca"
     }
-  },  {
+  }, {
     "model": "registration.Role",
     "pk": 2,
     "fields": {
