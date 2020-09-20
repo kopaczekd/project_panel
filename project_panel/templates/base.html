@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% block extra_head %}{% endblock %}
+    <script src="{% static 'registration.js' %}" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<h1>Header</h1>
+<p><a href="{% url 'dashboard:home' %}">Strona główna</a></p>
+{% if not user.is_authenticated %}
+    <p>Cześć nieznajomy!</p>
+{% else %}
+    <p><a href="/auth/logout/">Wyloguj</a></p>
+    <p>Cześć {{ user.first_name }}!</p>
+{% endif %}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+<h1>Footer</h1>
+</body>
+</html>
