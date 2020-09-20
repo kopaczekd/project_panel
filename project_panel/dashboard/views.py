@@ -9,7 +9,7 @@ from django.contrib import messages
 
 def home(request):
     if request.user.is_authenticated:
-        logged_user = UserDashboard.objects.get(user=request.user.id)
+        logged_user = UserDashboard.objects.get(user=request.user)
         if logged_user.is_executive():
             return redirect('dashboard:executive_panel')
         else:
@@ -26,8 +26,9 @@ class CustomerPanel(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_projects'] = Project.objects.filter(customer=self.request.user)
-        context['user_dashboard'] = UserDashboard.objects.get(user=self.request.user)
+        logged_customer = UserDashboard.objects.get(user=self.request.user)
+        context['all_projects'] = Project.objects.filter(customer=logged_customer)
+        context['user_dashboard'] = logged_customer
         return context
 
 
@@ -43,8 +44,11 @@ class AddProject(View):
         project_form = self.project_form_class(request.POST)
         if project_form.is_valid():
             new_project = project_form.save(commit=False)
-            new_project.customer = request.user
+            logged_customer = UserDashboard.objects.get(user=request.user)
+            new_project.customer = logged_customer
             new_project.save()
+            for selected_executor in project_form.cleaned_data['executors']:
+                new_project.executors.add(selected_executor)
             messages.info(request, "Projekt został pomyślnie dodany")
             return redirect('dashboard:home')
         else:

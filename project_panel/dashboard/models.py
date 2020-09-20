@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from registration.models import UserDashboard
 
 
 class Status(models.Model):
@@ -11,8 +12,8 @@ class Status(models.Model):
 
 class Project(models.Model):
     title = models.CharField(max_length=100, null=False, verbose_name="Nazwa projektu")
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Klient", related_name="customer")
-    executor = models.ManyToManyField(User, verbose_name="Wykonawca/y", related_name="executor")
+    customer = models.ForeignKey(UserDashboard, on_delete=models.CASCADE, verbose_name="Klient", related_name="customer")
+    executors = models.ManyToManyField(UserDashboard, verbose_name="Wykonawca/y", related_name="executors")
     description = models.TextField(verbose_name="Opis projektu")
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)

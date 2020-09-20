@@ -11,11 +11,11 @@
 <body>
 <h1>Header</h1>
 <p><a href="{% url 'dashboard:home' %}">Strona główna</a></p>
-{% if user.is_authenticated %}
-    <p>Cześć {{ user.first_name }} !</p>
-    <p><a href="/auth/logout/">Wyloguj</a></p>
-{% else %}
+{% if not user.is_authenticated %}
     <p>Cześć nieznajomy!</p>
+{% else %}
+    <p><a href="/auth/logout/">Wyloguj</a></p>
+    <p>Cześć {{ user.first_name }}!</p>
 {% endif %}
 
 {% if messages %}
