@@ -9,14 +9,14 @@ def home(request):
     if request.user.is_authenticated:
         logged_user = UserDashboard.objects.get(user=request.user.id)
         if logged_user.is_executive():
-            return executive_panel(request)
+            return redirect('dashboard:executive_panel')
         else:
             return redirect('dashboard:customer_panel')
     return render(request, 'dashboard/home.html')
 
 
-def executive_panel(request):
-    return render(request, 'dashboard/executive_panel.html')
+class ExecutivePanel(TemplateView):
+    template_name = 'dashboard/executive_panel.html'
 
 
 class CustomerPanel(TemplateView):
