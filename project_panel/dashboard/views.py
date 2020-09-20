@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.apps import apps
 from registration.models import UserDashboard
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from .models import Project
 from .forms import ProjectForm
+from django.contrib import messages
 
 
 def home(request):
@@ -30,11 +31,21 @@ class CustomerPanel(TemplateView):
         return context
 
 
-class AddProject(TemplateView):
+class AddProject(View):
     template_name = 'dashboard/project_form.html'
     project_form_class = ProjectForm
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['project_form'] = self.project_form_class(None)
-        return context
+    def get(self, request):
+        project_form = self.project_form_class(None)
+        return render(request, self.template_name, {'project_form': project_form})
+
+    def post(self, request):
+        project_form = self.project_form_class(request.POST)
+        if project_form.is_valid():
+            new_project = project_form.save(commit=False)
+            new_project.customer = request.user
+            new_project.save()
+            messages.info(request, "Projekt został pomyślnie dodany")
+            return redirect('dashboard:home')
+        else:
+            return redirect('dashboard:new_project')

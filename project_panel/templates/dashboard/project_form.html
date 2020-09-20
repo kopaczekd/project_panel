@@ -9,6 +9,7 @@
 {% block content %}
 <h1>Formularz projektu</h1>
 <form method="post">
+    {% csrf_token %}
     {{ project_form|crispy }}
     <input type="submit" value="Zapisz">
 </form>
