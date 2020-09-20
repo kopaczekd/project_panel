@@ -20,7 +20,7 @@ class UserDashboard(models.Model):
     active = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.user}, {self.telephone}'
+        return f'{self.user}, {self.telephone}, {self.active}'
 
     def is_executive(self):
         role = Role.objects.filter(name='Wykonawca').first()
