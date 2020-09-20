@@ -27,7 +27,3 @@ class CustomerPanel(TemplateView):
         context['all_projects'] = Project.objects.filter(customer=self.request.user)
         context['user_dashboard'] = UserDashboard.objects.get(user=self.request.user)
         return context
-
-    # def get_query_set(self, request):
-    #     all_projects = Project.objects.filter(customer=request.user)
-    #     return render(request, self.template_name, {'all_projects': all_projects})
