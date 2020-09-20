@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.apps import apps
 from registration.models import UserDashboard
 from django.views.generic import TemplateView, View
-from .models import Project
+from .models import Project, Task
 from .forms import ProjectForm
 from django.contrib import messages
 
@@ -43,10 +43,19 @@ class AddProject(View):
     def post(self, request):
         project_form = self.project_form_class(request.POST)
         if project_form.is_valid():
+
             new_project = project_form.save(commit=False)
             logged_customer = UserDashboard.objects.get(user=request.user)
             new_project.customer = logged_customer
             new_project.save()
+
+            # Tworzenie i przypisywanie tesków do Projektu
+            for key_from_form in request.POST.keys():
+                if 'task' in key_from_form:
+                    new_task = Task(title=request.POST.get(key_from_form), project=new_project)
+                    new_task.save()
+
+            # Przypisywanie wybranych wykonawców do Projektu
             for selected_executor in project_form.cleaned_data['executors']:
                 new_project.executors.add(selected_executor)
             messages.info(request, "Projekt został pomyślnie dodany")
