@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Formularz projektu {% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+<h1>Formularz projektu</h1>
+<form method="post">
+    {{ project_form|crispy }}
+    <input type="submit" value="Zapisz">
+</form>
+{% endblock %}

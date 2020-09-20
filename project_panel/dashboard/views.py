@@ -3,6 +3,7 @@ from django.apps import apps
 from registration.models import UserDashboard
 from django.views.generic import TemplateView
 from .models import Project
+from .forms import ProjectForm
 
 
 def home(request):
@@ -26,4 +27,14 @@ class CustomerPanel(TemplateView):
         context = super().get_context_data(**kwargs)
         context['all_projects'] = Project.objects.filter(customer=self.request.user)
         context['user_dashboard'] = UserDashboard.objects.get(user=self.request.user)
+        return context
+
+
+class AddProject(TemplateView):
+    template_name = 'dashboard/project_form.html'
+    project_form_class = ProjectForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project_form'] = self.project_form_class(None)
         return context

@@ -12,10 +12,10 @@ class Status(models.Model):
 class Project(models.Model):
     title = models.CharField(max_length=100, null=False, verbose_name="Nazwa projektu")
     customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Klient", related_name="customer")
-    executor = models.ManyToManyField(User, on_delete=models.CASCADE, verbose_name="Wykonawca", related_name="executor")
+    executor = models.ManyToManyField(User, verbose_name="Wykonawca/y", related_name="executor")
     description = models.TextField(verbose_name="Opis projektu")
-    start_date = models.DateField(null=True)
-    end_date = models.DateField(null=True)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
     paid = models.BooleanField(default=False)
     status = models.ForeignKey(Status, default=1, on_delete=models.DO_NOTHING)
 
