@@ -41,10 +41,6 @@
             <li><a href="#">{{ project }}</a></li>
         {% endfor %}
     </ol>
-
-    <form action="#">
-        <input type="button" value="Dodaj projekt">
-    </form>
+    <a href="{% url 'dashboard:new_project' %}"><input type="button" value="Dodaj projekt"></a>
 </div>
-
 {% endblock %}
