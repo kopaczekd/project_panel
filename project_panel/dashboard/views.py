@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.apps import apps
 from registration.models import UserDashboard
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView, View, DetailView
 from .models import Project, Task
 from .forms import ProjectForm
 from django.contrib import messages
+from django.http import HttpResponse
 
 
 def home(request):
@@ -55,6 +56,12 @@ class AddProject(View):
                     new_task = Task(title=request.POST.get(key_from_form), project=new_project)
                     new_task.save()
 
+                if not Task.objects.filter(project=new_project):
+                    startup_task_for_project_without_given_tasks = Task(
+                        title='Startowe - stworzone przez system',
+                        project=new_project)
+                    startup_task_for_project_without_given_tasks.save()
+
             # Przypisywanie wybranych wykonawców do Projektu
             for selected_executor in project_form.cleaned_data['executors']:
                 new_project.executors.add(selected_executor)
@@ -62,3 +69,17 @@ class AddProject(View):
             return redirect('dashboard:home')
         else:
             return redirect('dashboard:new_project')
+
+
+class ProjectDetailsView(View):
+    template_name = 'dashboard/project_details.html'
+
+    def get(self, request, *args, **kwargs):
+        project = get_object_or_404(Project, pk=kwargs['project_id'])
+        executors = project.executors.all()
+        tasks = Task.objects.filter(project=project)
+        context = {'project': project,
+                   'executors': executors,
+                   'tasks': tasks}
+        return render(request, self.template_name, context)
+
