@@ -29,7 +29,7 @@ class Task(models.Model):
     # description = models.TextField(verbose_name="Opis zadania")
     spent_time = models.TimeField(verbose_name="Czas realizacji [h]", null=True, blank=True)
     status = models.ForeignKey(Status, default=1, on_delete=models.DO_NOTHING)
-    executor = models.ForeignKey(User, null=True, on_delete=models.DO_NOTHING)
+    executor = models.ForeignKey(User, null=True, blank=True, on_delete=models.DO_NOTHING)
     project = models.ForeignKey(Project, on_delete=models.DO_NOTHING)
     price_per_hour = models.PositiveSmallIntegerField(null=True, blank=True)
 

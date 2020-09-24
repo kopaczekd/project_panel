@@ -34,13 +34,21 @@
     </table>
 </div>
 
+<a href="{% url 'dashboard:new_project' %}"><input type="button" value="Dodaj projekt"></a>
+
 <div id="projects_info">
     <h3>Lista moich projektów</h3>
-    <ol>
-        {% for project in all_projects %}
-            <li><a href="#">{{ project }}</a></li>
-        {% endfor %}
-    </ol>
-    <a href="{% url 'dashboard:new_project' %}"><input type="button" value="Dodaj projekt"></a>
+    <table>
+    <tr>
+        <td>Nazwa projektu</td>
+        <td>Status</td>
+    </tr>
+    {% for project in all_projects %}
+        <tr>
+            <td><a href="{% url 'dashboard:project_details' project.id %}">{{ project }}</a></td>
+            <td>{{ project.status }}</td>
+        </tr>
+    {% endfor %}
+    </table>
 </div>
 {% endblock %}

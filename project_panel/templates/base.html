@@ -10,7 +10,7 @@
 </head>
 <body>
 <h1>Header</h1>
-<p><a href="{% url 'dashboard:home' %}">Strona główna</a></p>
+<p><a href="{% url 'dashboard:home' %}">Mój panel</a></p>
 {% if not user.is_authenticated %}
     <p>Cześć nieznajomy!</p>
 {% else %}
