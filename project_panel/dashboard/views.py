@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.apps import apps
 from registration.models import UserDashboard
-from django.views.generic import TemplateView, View, DetailView
+from django.views.generic import TemplateView, View
 from .models import Project, Task
 from .forms import ProjectForm
 from django.contrib import messages
-from django.http import HttpResponse
 
 
 def home(request):
@@ -82,4 +81,3 @@ class ProjectDetailsView(View):
                    'executors': executors,
                    'tasks': tasks}
         return render(request, self.template_name, context)
-
