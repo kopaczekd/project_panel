@@ -58,7 +58,7 @@ class AddProject(View):
 
                 if not Task.objects.filter(project=new_project):
                     startup_task_for_project_without_given_tasks = Task(
-                        title='Zadanie startowe - wygenerowane przez system',
+                        title='Startowe - stworzone przez system',
                         project=new_project)
                     startup_task_for_project_without_given_tasks.save()
 

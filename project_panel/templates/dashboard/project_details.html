@@ -21,13 +21,18 @@
     </ol>
 
     <h4>Zadania:</h4>
-    <ol>
+    <table>
+        <tr>
+            <td>Zadanie</td>
+            <td>Status</td>
+        </tr>
         {% for task in tasks %}
-        <li>
-            {{ task }}
-        </li>
+            <tr>
+                <td><a>{{ task }}</a></td>
+                <td>{{ task.status }}</td>
+            </tr>
         {% endfor %}
-    </ol>
+    </table>
     <p><a href="{% url 'dashboard:home' %}">Wróć</a></p>
 </div>
 {% endblock %}
