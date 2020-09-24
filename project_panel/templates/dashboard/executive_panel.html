@@ -6,7 +6,26 @@
 {% endblock %}
 
 {% block content %}
-    {% csrf_token %}
 <h1>Panel Wykonawcy</h1>
+
+<table>
+        <tr>
+            <td>Zadanie do przypisania</td>
+            <td>Pochodzi z projektu:</td>
+            <td>Status</td>
+        </tr>
+    {% for task in list_of_tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.project }}</td>
+            <td>{{ task.status }}</td>
+            {% if task.status == "W trakcie" %}
+                <td><a href="#">Zakończ</a></td>
+            {% else %}
+                <td><a href="{% url 'dashboard:assign_task' task.id %}">Rezerwuj</a></td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}

@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.apps import apps
 from registration.models import UserDashboard
 from django.views.generic import TemplateView, View
-from .models import Project, Task
+from .models import Project, Task, Status
 from .forms import ProjectForm
 from django.contrib import messages
 
@@ -19,6 +18,21 @@ def home(request):
 
 class ExecutivePanel(TemplateView):
     template_name = 'dashboard/executive_panel.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        logged_executor = UserDashboard.objects.get(user=self.request.user)
+        all_projects = Project.objects.filter(executors=logged_executor)
+
+        list_of_tasks = []
+        for project in all_projects:
+            tasks = Task.objects.filter(project=project)
+            for task in tasks:
+                list_of_tasks.append(task)
+
+        context['list_of_tasks'] = list_of_tasks
+        context['user_dashboard'] = logged_executor
+        return context
 
 
 class CustomerPanel(TemplateView):
@@ -55,11 +69,11 @@ class AddProject(View):
                     new_task = Task(title=request.POST.get(key_from_form), project=new_project)
                     new_task.save()
 
-                if not Task.objects.filter(project=new_project):
-                    startup_task_for_project_without_given_tasks = Task(
-                        title='Startowe - stworzone przez system',
-                        project=new_project)
-                    startup_task_for_project_without_given_tasks.save()
+            if not Task.objects.filter(project=new_project):
+                startup_task_for_project_without_given_tasks = Task(
+                    title='Startowe - stworzone przez system',
+                    project=new_project)
+                startup_task_for_project_without_given_tasks.save()
 
             # Przypisywanie wybranych wykonawców do Projektu
             for selected_executor in project_form.cleaned_data['executors']:
@@ -81,3 +95,19 @@ class ProjectDetailsView(View):
                    'executors': executors,
                    'tasks': tasks}
         return render(request, self.template_name, context)
+
+
+def assign_task(request, task_id):
+    logged_executor = UserDashboard.objects.get(user=request.user)
+    if Task.objects.filter(executor=logged_executor):
+        messages.info(request, "Możesz mieć zarezerwowane maksymalnie jedno zadanie.")
+    else:
+        task_to_assign = get_object_or_404(Task, id=task_id)
+        task_to_assign.executor = logged_executor
+        status_executing = Status.objects.get(id=2)
+        task_to_assign.status = status_executing
+        task_to_assign.project.status = status_executing
+        task_to_assign.save()
+        messages.info(request, "Pomyślnie zarezerwowałeś zadanie.")
+
+    return redirect('dashboard:home')
