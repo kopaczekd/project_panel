@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %} Panel Klienta {% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+<h1>Panel Klienta</h1>
+
+<div id="user_info">
+    <h3>Moje dane</h3>
+    <table>
+        <tr>
+            <td>Imie:  </td>
+            <td>{{ user_dashboard.name }}</td>
+        </tr>
+        <tr>
+            <td>Podmiot:  </td>
+            <td>{{ user_dashboard.company_name }}</td>
+        </tr>
+        <tr>
+            <td>Nip:  </td>
+            <td>{{ user_dashboard.nip }}</td>
+        </tr>
+        <tr>
+            <td>Adres pocztowy:  </td>
+            <td>{{ user_dashboard.postal_address }}</td>
+        </tr>
+        <tr>
+            <td>Telefon:  </td>
+            <td>{{ user_dashboard.telephone }}</td>
+        </tr>
+    </table>
+</div>
+
+<a href="{% url 'dashboard:new_project' %}"><input type="button" value="Dodaj projekt"></a>
+
+<div id="projects_info">
+    <h3>Lista moich projektów</h3>
+    <table>
+    <tr>
+        <td>Nazwa projektu</td>
+        <td>Status</td>
+    </tr>
+    {% for project in all_projects %}
+        <tr>
+            <td><a href="{% url 'dashboard:project_details' project.id %}">{{ project }}</a></td>
+            <td>{{ project.status }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}
