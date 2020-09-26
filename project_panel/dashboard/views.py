@@ -23,12 +23,14 @@ class ExecutivePanel(TemplateView):
         context = super().get_context_data(**kwargs)
         logged_executor = UserDashboard.objects.get(user=self.request.user)
         all_projects = Project.objects.filter(executors=logged_executor)
-
+        status_executing = Status.objects.get(id=2)
         list_of_tasks = []
         for project in all_projects:
             tasks = Task.objects.filter(project=project)
             for task in tasks:
                 list_of_tasks.append(task)
+                if task.executor == logged_executor and task.status == status_executing:
+                    context['busy_executor'] = True
 
         context['list_of_tasks'] = list_of_tasks
         context['user_dashboard'] = logged_executor
@@ -99,15 +101,30 @@ class ProjectDetailsView(View):
 
 def assign_task(request, task_id):
     logged_executor = UserDashboard.objects.get(user=request.user)
-    if Task.objects.filter(executor=logged_executor):
-        messages.info(request, "Możesz mieć zarezerwowane maksymalnie jedno zadanie.")
-    else:
+
+    for task in Task.objects.filter(executor=logged_executor):
+        if task.status == 2:
+            messages.info(request, "Możesz mieć zarezerwowane maksymalnie jedno zadanie.")
+            return redirect('dashboard:home')
+
         task_to_assign = get_object_or_404(Task, id=task_id)
         task_to_assign.executor = logged_executor
         status_executing = Status.objects.get(id=2)
         task_to_assign.status = status_executing
-        task_to_assign.project.status = status_executing
         task_to_assign.save()
+        project = get_object_or_404(Project, id=task_to_assign.project.id)
+        project.status = status_executing
+        project.save()
         messages.info(request, "Pomyślnie zarezerwowałeś zadanie.")
 
+    return redirect('dashboard:home')
+
+
+def finish_task(request, task_id):
+    task_to_finish = get_object_or_404(Task, id=task_id)
+    status_finish = Status.objects.get(id=3)
+    task_to_finish.status = status_finish
+    task_to_finish.save()
+    # Jeżeli wszystkie taski prjekru są Zakończone to projekt jest również zakończony
+    messages.info(request, "Pomyślnie zakończyłeś zadanie.")
     return redirect('dashboard:home')
