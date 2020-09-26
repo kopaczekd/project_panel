@@ -6,7 +6,40 @@
 {% endblock %}
 
 {% block content %}
-    {% csrf_token %}
 <h1>Panel Wykonawcy</h1>
+<h2> {{ busy_executor }} </h2>
+{% if list_of_tasks %}
+    <table>
+            <tr>
+                <td>Zadanie do przypisania</td>
+                <td>Pochodzi z projektu</td>
+                <td>Status</td>
+                <td>Przypisanie do:</td>
+            </tr>
+        {% for task in list_of_tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.project }}</td>
+                <td>{{ task.status }}</td>
+
+                {% if task.executor is None %}
+                    <td></td>
+                {% else %}
+                <td>{{ task.executor }}</td>
+                {% endif %}
+
+                {% if busy_executor %}
+                    {% if task.status.name == "W trakcie" and task.executor.id == user.id %}
+                        <td><a href="{% url 'dashboard:finish_task' task.id %}">Zakończ</a></td>
+                    {% endif %}
+                {% elif task.status.name == "Zaplanowany" %}
+                    <td><a href="{% url 'dashboard:assign_task' task.id %}">Rezerwuj</a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>Nie zostałeś jeszcze przypisany do żadnych projektów.</p>
+{% endif %}
 
 {% endblock %}
