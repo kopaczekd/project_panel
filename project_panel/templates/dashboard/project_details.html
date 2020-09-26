@@ -25,11 +25,17 @@
         <tr>
             <td>Zadanie</td>
             <td>Status</td>
+            <td>Wykonuje</td>
         </tr>
         {% for task in tasks %}
             <tr>
                 <td><a>{{ task }}</a></td>
                 <td>{{ task.status }}</td>
+                {% if task.executor is None %}
+                    <td></td>
+                {% else %}
+                <td>{{ task.executor }}</td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>
