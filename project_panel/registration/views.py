@@ -1,6 +1,7 @@
-from .forms import RegisterForm, RegisterUserDashboard
+from .forms import RegisterForm, RegisterUserDashboard, LoginForm
 from django.shortcuts import render, redirect
 from .models import Role
+from django.contrib.auth.views import LoginView
 
 
 def register(request):
@@ -11,6 +12,8 @@ def register(request):
     if request.method == 'POST':
         if form_user.is_valid() and form_user_dashboard.is_valid():
             user = form_user.save(commit=False)
+            user.email = user.username
+            user.save()
             user_from_dashboard = form_user_dashboard.save(commit=False)
             user_from_dashboard.user = user
             user_from_dashboard.name = user.first_name
@@ -21,7 +24,6 @@ def register(request):
             else:
                 selected_role = Role.objects.get(id=2)
             user_from_dashboard.role = selected_role
-            user.save()
             user_from_dashboard.save()
             return redirect('dashboard:home')
     return render(request, 'registration/register.html', {'form_user': form_user,
@@ -36,3 +38,8 @@ def login(request):
 
 def logged(request):
     return render(request, 'registration/logged.html')
+
+
+class CustomLoginView(LoginView):
+    form_class = LoginForm
+    template_name = 'registration/login.html'
