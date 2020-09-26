@@ -107,15 +107,15 @@ def assign_task(request, task_id):
             messages.info(request, "Możesz mieć zarezerwowane maksymalnie jedno zadanie.")
             return redirect('dashboard:home')
 
-        task_to_assign = get_object_or_404(Task, id=task_id)
-        task_to_assign.executor = logged_executor
-        status_executing = Status.objects.get(id=2)
-        task_to_assign.status = status_executing
-        task_to_assign.save()
-        project = get_object_or_404(Project, id=task_to_assign.project.id)
-        project.status = status_executing
-        project.save()
-        messages.info(request, "Pomyślnie zarezerwowałeś zadanie.")
+    task_to_assign = get_object_or_404(Task, id=task_id)
+    task_to_assign.executor = logged_executor
+    status_executing = Status.objects.get(id=2)
+    task_to_assign.status = status_executing
+    task_to_assign.save()
+    project = get_object_or_404(Project, id=task_to_assign.project.id)
+    project.status = status_executing
+    project.save()
+    messages.info(request, "Pomyślnie zarezerwowałeś zadanie.")
 
     return redirect('dashboard:home')
 
@@ -125,6 +125,20 @@ def finish_task(request, task_id):
     status_finish = Status.objects.get(id=3)
     task_to_finish.status = status_finish
     task_to_finish.save()
-    # Jeżeli wszystkie taski prjekru są Zakończone to projekt jest również zakończony
+
+    project = get_object_or_404(Project, id=task_to_finish.project.id)
+    project_all_tasks = Task.objects.filter(project=project)
+    is_project_complete = True
+
+    for task in project_all_tasks:
+        if task.status != status_finish:
+            is_project_complete = False
+            break
+
+    if is_project_complete:
+        project.status = status_finish
+        project.save()
+        messages.info(request, "Projekt został zakończony.")
+
     messages.info(request, "Pomyślnie zakończyłeś zadanie.")
     return redirect('dashboard:home')
