@@ -1,0 +1,17 @@
+.to_do {
+font-weight: bold;
+text-align: left;
+}
+
+ul {
+    list-style: none;
+    padding: 0px;
+}
+
+#id_executors li {
+    list-style-type: none;
+}
+
+.no_hover_effect {
+    pointer-events: none;
+}
