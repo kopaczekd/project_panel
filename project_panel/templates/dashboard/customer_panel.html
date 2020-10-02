@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %} Panel Klienta {% endblock %}
+{% block title %} PANEL KLIENTA {% endblock %}
 
 {% block extra_head %}
 {% endblock %}
 
-{% block content %}
-<h1>Panel Klienta</h1>
+{% block jumbotron %}Panel Klienta{% endblock %}
 
+{% block content %}
+
+<div style="width:50%;" class="text-left">
 <div id="user_info">
-    <h3>Moje dane</h3>
-    <table>
+    <table class="table table-sm">
+        <tr class="table-active">
+            <th colspan="2">Moje dane</th>
+        </tr>
         <tr>
-            <td>Imie:  </td>
+            <td>Imie i nazwisko:  </td>
             <td>{{ user_dashboard.name }}</td>
         </tr>
         <tr>
@@ -32,23 +36,28 @@
             <td>{{ user_dashboard.telephone }}</td>
         </tr>
     </table>
-</div>
+    </div>
 
-<a href="{% url 'dashboard:new_project' %}"><input type="button" value="Dodaj projekt"></a>
 
-<div id="projects_info">
-    <h3>Lista moich projektów</h3>
-    <table>
-    <tr>
-        <td>Nazwa projektu</td>
-        <td>Status</td>
-    </tr>
-    {% for project in all_projects %}
-        <tr>
-            <td><a href="{% url 'dashboard:project_details' project.id %}">{{ project }}</a></td>
-            <td>{{ project.status }}</td>
+<div id="projects_info" class="pt-4">
+    <h4>Lista moich projektów</h4>
+    {% if all_projects %}
+    <table class="table table-sm">
+        <tr class="table-active">
+            <th scope="col">Nazwa projektu</th>
+            <th scope="col">Status</th>
         </tr>
-    {% endfor %}
+        {% for project in all_projects %}
+            <tr>
+                <td><a href="{% url 'dashboard:project_details' project.id %}">{{ project }}</a></td>
+                <td>{{ project.status }}</td>
+            </tr>
+        {% endfor %}
     </table>
+    {% else %}
+    <p>Nie posiadasz jeszcze żadnych projektów.</p>
+    {% endif %}
+</div>
+<a href="{% url 'dashboard:new_project' %}"><input class="mb-3 mt-3 btn btn-primary" type="button" value="Dodaj projekt"></a>
 </div>
 {% endblock %}

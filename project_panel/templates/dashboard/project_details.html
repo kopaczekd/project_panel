@@ -1,28 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %} Projekt - {{ project.title }} {% endblock %}
+{% block title %} PROJEKT - {{ project.title }} {% endblock %}
 
 {% block extra_head %}
+
 {% endblock %}
+
+{% block jumbotron %}PROJEKT - {{ project.title }}{% endblock %}
 
 {% block content %}
 
+<div style="width:50%;" class="text-left">
 <div id="project_info">
-    <h1>{{ project.title }}</h1>
-    <p>Status: {{ project.status }}</p>
-    <p>{{ project.description }}</p>
-    <h4>Wykonawcy:</h4>
-    <ol>
+    <p><a class="text-info no_hover_effect">Status: </a> {{ project.status }}</p>
+    <p><a class="text-info no_hover_effect">Opis: </a>{{ project.description }}</p>
+    <h4 class="pt-4">Wykonawcy:</h4>
+    <ul id="id_executors">
         {% for executor in executors %}
         <li>
             {{ executor }}
         </li>
         {% endfor %}
-    </ol>
+    </ul>
 
-    <h4>Zadania:</h4>
-    <table>
-        <tr>
+    <h4 class="pt-4">Zadania:</h4>
+    <table class="table table-sm">
+        <tr class="table-active">
             <td>Zadanie</td>
             <td>Status</td>
             <td>Wykonuje</td>
@@ -39,6 +42,7 @@
             </tr>
         {% endfor %}
     </table>
-    <p><a href="{% url 'dashboard:home' %}">Wróć</a></p>
+    <p><a href="{% url 'dashboard:home' %}" class="btn btn-secondary mt-5">Wróć</a></p>
+</div>
 </div>
 {% endblock %}

@@ -1,19 +1,25 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load bootstrap %}
 
 {% block title %} Logowanie {% endblock %}
 
 {% block extra_head %}
 {% endblock %}
 
+{% block jumbotron %}Logowanie{% endblock %}
+
 {% block content %}
 <body>
-    <h1>Logowania</h1>
+<div style="width:50%;" class="text-left">
     <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-<!--        <input type="text" placeholder="email">-->
-<!--        <input type="password" placeholder="hasło">-->
-        <input type="submit" value="Zaloguj" id="login">
+        <div class="form-group">
+            {% csrf_token %}
+            {{ form.username|bootstrap }}
+        </div>
+        <div class="form-group">
+            {{ form.password|bootstrap }}
+        </div>
+            <input type="submit" class="btn btn-primary" value="Zaloguj" id="login">
     </form>
+</div>
 {% endblock %}

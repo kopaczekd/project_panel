@@ -1,25 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %} Panel Wykonawcy {% endblock %}
+{% block title %} PANEL WYKONAWCY {% endblock %}
 
 {% block extra_head %}
 {% endblock %}
 
+{% block jumbotron %}Panel Wykonawcy{% endblock %}
+
 {% block content %}
-<h1>Panel Wykonawcy</h1>
-<h2> {{ busy_executor }} </h2>
+
+<div style="width:50%;" class="text-left">
 {% if list_of_tasks %}
-    <table>
-            <tr>
-                <td>Zadanie do przypisania</td>
-                <td>Pochodzi z projektu</td>
-                <td>Status</td>
-                <td>Przypisanie do:</td>
+    <table class="table table-sm">
+            <tr class="table-active">
+                <th scope="col">Zadanie</th>
+                <th scope="col">Z projektu</th>
+                <th scope="col">Status</th>
+                <th scope="col">Przypisanie do</th>
             </tr>
         {% for task in list_of_tasks %}
             <tr>
                 <td>{{ task.title }}</td>
-                <td>{{ task.project }}</td>
+                <td><a href="{% url 'dashboard:project_details' task.project.id %}">{{ task.project }}</a></td>
                 <td>{{ task.status }}</td>
 
                 {% if task.executor is None %}
@@ -30,10 +32,10 @@
 
                 {% if busy_executor %}
                     {% if task.status.name == "W trakcie" and task.executor.id == user.id %}
-                        <td><a href="{% url 'dashboard:finish_task' task.id %}">Zakończ</a></td>
+                        <td><a href="{% url 'dashboard:finish_task' task.id %}" class="btn btn-success p-2">Zakończ</a></td>
                     {% endif %}
                 {% elif task.status.name == "Zaplanowany" %}
-                    <td><a href="{% url 'dashboard:assign_task' task.id %}">Rezerwuj</a></td>
+                    <td><a href="{% url 'dashboard:assign_task' task.id %}" class="btn btn-success p-2">Rezerwuj</a></td>
                 {% endif %}
             </tr>
         {% endfor %}
@@ -41,5 +43,5 @@
 {% else %}
     <p>Nie zostałeś jeszcze przypisany do żadnych projektów.</p>
 {% endif %}
-
+</div>
 {% endblock %}

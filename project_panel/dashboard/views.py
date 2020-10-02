@@ -51,6 +51,7 @@ class CustomerPanel(TemplateView):
 class AddProject(View):
     template_name = 'dashboard/project_form.html'
     project_form_class = ProjectForm
+    permission_required = [ 'dashboard.add_project' ]
 
     def get(self, request):
         project_form = self.project_form_class(None)
