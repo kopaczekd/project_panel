@@ -1,19 +1,31 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load bootstrap %}
+{% load static %}
 
 {% block title %} Rejestracja {% endblock %}
 
 {% block extra_head %}
+<script src="{% static 'registration.js' %}" type="text/javascript"></script>
 {% endblock %}
 
+{% block jumbotron %}Rejestracja{% endblock %}
+
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    <p>Czy rejestrujesz się jako Wykonawca projektów?</p>
-    <input type="checkbox" id="if_executive" name="if_executive" value="executive"/>
-    <label for="if_executive">Tak</label>
-    {{ form_user|crispy }}
-    {{ form_user_dashboard|crispy }}
-    <input type='submit' value='Zarejestruj!'>
-</form>
+
+<div style="width:50%;" class="text-left">
+    <form method="POST">
+        {% csrf_token %}
+        <p>Czy rejestrujesz się jako Wykonawca projektów?</p>
+        <input type="checkbox" id="if_executive" name="if_executive" value="executive"/>
+        <label for="if_executive">Tak</label>
+        {{ form_user|bootstrap }}
+        <div id="company_info">
+        {{ form_user_dashboard.company_name|bootstrap }}
+        {{ form_user_dashboard.nip|bootstrap }}
+        </div>
+        {{ form_user_dashboard.postal_address|bootstrap }}
+        {{ form_user_dashboard.telephone|bootstrap }}
+        <input type='submit' value='Zarejestruj' class="btn btn-primary">
+    </form>
+</div>
 {% endblock %}

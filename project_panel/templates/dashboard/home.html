@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %} Home {% endblock %}
+{% block title %} PROJECT_PANEL {% endblock %}
 
 {% block extra_head %}
 {% endblock %}
 
 {% block content %}
-<h1>Jesteś na stronie głównej!</h1>
-<p><a href="/auth/login/">Zaloguj się!</a></p>
-<p><a href="{% url 'registration:register' %}">Zarejestruj się!</a></p>
+<h3>Jest to aplikacja do zarządzania projektami.</h3>
 {% endblock %}
