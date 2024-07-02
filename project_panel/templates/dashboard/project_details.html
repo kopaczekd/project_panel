@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} Projekt - {{ project.title }} {% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+
+<div id="project_info">
+    <h1>{{ project.title }}</h1>
+    <p>Status: {{ project.status }}</p>
+    <p>{{ project.description }}</p>
+    <h4>Wykonawcy:</h4>
+    <ol>
+        {% for executor in executors %}
+        <li>
+            {{ executor }}
+        </li>
+        {% endfor %}
+    </ol>
+
+    <h4>Zadania:</h4>
+    <table>
+        <tr>
+            <td>Zadanie</td>
+            <td>Status</td>
+        </tr>
+        {% for task in tasks %}
+            <tr>
+                <td><a>{{ task }}</a></td>
+                <td>{{ task.status }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p><a href="{% url 'dashboard:home' %}">Wróć</a></p>
+</div>
+{% endblock %}

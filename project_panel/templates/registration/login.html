@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Logowanie {% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+<body>
+    <h1>Logowania</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+<!--        <input type="text" placeholder="email">-->
+<!--        <input type="password" placeholder="hasło">-->
+        <input type="submit" value="Zaloguj" id="login">
+    </form>
+{% endblock %}

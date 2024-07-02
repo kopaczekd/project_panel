@@ -1,0 +1,21 @@
+[
+  {
+    "model": "dashboard.Status",
+    "pk": 1,
+    "fields": {
+      "name": "Zaplanowany"
+    }
+  }, {
+    "model": "dashboard.Status",
+    "pk": 2,
+    "fields": {
+      "name": "W trakcie"
+    }
+  }, {
+    "model": "dashboard.Status",
+    "pk": 3,
+    "fields": {
+      "name": "Zakończony"
+    }
+  }
+]

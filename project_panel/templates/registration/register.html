@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Rejestracja {% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <p>Czy rejestrujesz się jako Wykonawca projektów?</p>
+    <input type="checkbox" id="if_executive" name="if_executive" value="executive"/>
+    <label for="if_executive">Tak</label>
+    {{ form_user|crispy }}
+    {{ form_user_dashboard|crispy }}
+    <input type='submit' value='Zarejestruj!'>
+</form>
+{% endblock %}
